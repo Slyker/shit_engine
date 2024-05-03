@@ -1,6 +1,6 @@
 use super::hsv::Hsv;
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug,PartialEq, Clone, Copy, Hash)]
+#[derive(Debug, PartialEq, Clone, Copy, Hash)]
 pub struct Rgb {
     pub r: u8,
     pub g: u8,
@@ -10,7 +10,7 @@ pub struct Rgb {
 
 impl Rgb {
     pub fn new(r: u8, g: u8, b: u8) -> Self {
-        Self { r, g, b, a:255 }
+        Self { r, g, b, a: 255 }
     }
 
     pub fn new_with_alpha(r: u8, g: u8, b: u8, a: u8) -> Self {
@@ -71,7 +71,6 @@ impl From<[u8; 4]> for Rgb {
         rgb
     }
 }
-
 
 #[cfg(test)]
 mod tests {
@@ -255,8 +254,4 @@ mod tests {
         let hsv_array = [0.0, 1.0, 1.0, 1.0];
         assert_eq!(hsv, Hsv::from(hsv_array));
     }
-
 }
-
-
-

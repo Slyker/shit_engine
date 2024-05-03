@@ -17,10 +17,10 @@ impl Point {
     }
 
     pub fn is_inside(&self, point_min: &Point, point_max: &Point) -> bool {
-        self.x >= point_min.x &&
-            self.x <= point_max.x &&
-            self.y >= point_min.y &&
-            self.y <= point_max.y
+        self.x >= point_min.x
+            && self.x <= point_max.x
+            && self.y >= point_min.y
+            && self.y <= point_max.y
     }
 }
 

@@ -1,8 +1,7 @@
-
-pub mod point;
+pub mod better_call_zone;
 pub mod color;
 pub mod pixel;
-pub mod better_call_zone;
+pub mod point;
 
 use image::ImageBuffer;
 
@@ -59,22 +58,17 @@ impl ImageAnalyzer {
             let width = self.image.width();
             let height = self.image.height();
             match zone {
-            ImageZone::Full => (width, height, 0, 0),
-            ImageZone::Partial(ref start, ref end) => {
-                if start.x > end.x
-                || start.y > end.y
-                || end.x > width
-                || end.y > height
-                {
-                panic!("Invalid zone");
-                } else if start.x == end.x || start.y == end.y {
-                panic!("Invalid zone");
+                ImageZone::Full => (width, height, 0, 0),
+                ImageZone::Partial(ref start, ref end) => {
+                    if start.x > end.x || start.y > end.y || end.x > width || end.y > height {
+                        panic!("Invalid zone");
+                    } else if start.x == end.x || start.y == end.y {
+                        panic!("Invalid zone");
+                    }
+                    (end.x - start.x, end.y - start.y, start.x, start.y)
                 }
-                (end.x - start.x, end.y - start.y, start.x, start.y)
-            }
             }
         };
-      
 
         'outer: for y in start_y..height {
             for x in start_x..width {

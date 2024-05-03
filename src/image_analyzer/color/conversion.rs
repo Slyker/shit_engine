@@ -51,4 +51,3 @@ pub fn rgb_from_hsv(hsv: &Hsv) -> Rgb {
         a: (hsv.a * 255.0) as u8,
     }
 }
-
