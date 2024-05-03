@@ -5,6 +5,8 @@ pub struct Pixel {
     pub color: Color,
     pub points: Vec<Point>,
 }
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[derive(Debug, Clone)]
 pub struct PixelVec {
     pub pixels: Vec<Pixel>,
     pub points_count: usize,
