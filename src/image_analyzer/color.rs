@@ -1,4 +1,3 @@
-pub mod color_from;
 pub mod conversion;
 pub mod hsv;
 pub mod rgb;

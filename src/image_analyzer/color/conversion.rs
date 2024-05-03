@@ -1,6 +1,9 @@
 use super::hsv::Hsv;
 use super::rgb::Rgb;
 
+mod hsv;
+mod rgb;
+
 pub fn hsv_from_rgb(rgb: &Rgb) -> Hsv {
     let r = rgb.r as f64 / 255.0;
     let g = rgb.g as f64 / 255.0;
