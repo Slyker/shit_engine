@@ -49,7 +49,7 @@ impl ImageAnalyzer {
     pub fn reset_pixels(&mut self) {
         self.pixels = PixelVec::new();
     }
-
+    #[inline(always)]
     pub fn process_image<F>(&mut self, zone: ImageZone, mut callback: F)
     where
         F: FnMut(Color, Point) -> Option<LoopResult>,
@@ -74,7 +74,7 @@ impl ImageAnalyzer {
             for x in start_x..width {
                 let pixel = self.image.get_pixel(x, y);
                 let rgb = Rgb::from(pixel.0);
-                let color = Color::Rgb(rgb);
+                let color = Color::from(rgb);
                 let point = Point { x, y };
                 let loop_result = callback(color, point);
                 if let Some(result) = loop_result {
@@ -96,6 +96,17 @@ impl ImageAnalyzer {
             }
         }
     }
+    /// Compare the pixel with the color and the tolerance if they are provided
+    /// - If the color is None, it will return fa
+    /// - If the tolerance is None, it will compare the color with the pixel
+    /// - If the tolerance is provided, it will compare the pixel with the color and the tolerance
+    pub fn compare_pixel(new_pixel: &Color, color: Option<&Color>) -> bool {
+        if let Some(color) = color {
+            color.compare(new_pixel)
+        } else {
+            false
+        }
+    }
 
     pub fn detect_pixels(&mut self, zone: ImageZone) -> &PixelVec {
         if self.pixels.points_count > 0 {
@@ -109,6 +120,7 @@ impl ImageAnalyzer {
         self.pixels = points;
         &self.pixels
     }
+
     #[allow(dead_code)]
     pub fn detect_pixels_color(&mut self, zone: ImageZone, color: Color) -> &PixelVec {
         if self.pixels.points_count > 0 {
@@ -116,7 +128,7 @@ impl ImageAnalyzer {
         }
         let mut points = PixelVec::new();
         self.process_image(zone, |c, point| {
-            if c == color {
+            if Self::compare_pixel(&c, Some(&color)) {
                 points.push((c, point));
             }
             None
@@ -125,18 +137,13 @@ impl ImageAnalyzer {
         &self.pixels
     }
 
-    pub fn detect_pixel_with_tolerance(
-        &mut self,
-        zone: ImageZone,
-        color: Color,
-        tolerance: Color,
-    ) -> &PixelVec {
+    pub fn detect_pixel_with_tolerance<'a>(&mut self, zone: ImageZone, color: &'a Color) -> &PixelVec {
         if self.pixels.points_count > 0 {
             return &self.pixels;
         }
         let mut points = PixelVec::new();
         self.process_image(zone, |c, point| {
-            if c == color || c.get_hsv().compare(&color.get_hsv(), tolerance.get_hsv()) {
+            if color.compare(&c) {
                 points.push((c, point));
             }
             None

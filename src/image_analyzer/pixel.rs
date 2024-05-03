@@ -46,7 +46,7 @@ mod tests {
     fn test_push() {
         let mut pixel_vec = PixelVec::new();
         let point = Point::new(0, 0);
-        let color = Color::Rgb(Rgb::new(0, 0, 0));
+        let color = Color::from(Rgb::new(0, 0, 0));
         pixel_vec.push((color.clone(), point.clone()));
         assert_eq!(pixel_vec.points_count, 1);
         assert_eq!(pixel_vec.pixels.len(), 1);
@@ -58,7 +58,7 @@ mod tests {
     fn test_push_multiple() {
         let mut pixel_vec = PixelVec::new();
         let point = Point::new(0, 0);
-        let color = Color::Rgb(Rgb::new(0, 0, 0));
+        let color = Color::from(Rgb::new(0, 0, 0));
         pixel_vec.push((color.clone(), point.clone()));
         pixel_vec.push((color.clone(), point.clone()));
         assert_eq!(pixel_vec.points_count, 2);
@@ -72,8 +72,8 @@ mod tests {
     fn test_push_multiple_colors() {
         let mut pixel_vec = PixelVec::new();
         let point = Point::new(0, 0);
-        let color = Color::Rgb(Rgb::new(0, 0, 0));
-        let color2 = Color::Rgb(Rgb::new(0, 0, 1));
+        let color = Color::from(Rgb::new(0, 0, 0));
+        let color2 = Color::from(Rgb::new(0, 0, 1));
         pixel_vec.push((color.clone(), point.clone()));
         pixel_vec.push((color2.clone(), point.clone()));
         assert_eq!(pixel_vec.points_count, 2);

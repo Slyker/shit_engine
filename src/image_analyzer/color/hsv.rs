@@ -49,19 +49,30 @@ impl Hsv {
     }
     #[allow(dead_code)]
     pub fn compare(&self, other: &Hsv, tolerance: Hsv) -> bool {
-        let diff = self.diff(other);
-        diff.h <= tolerance.h
-            && diff.s <= tolerance.s
-            && diff.v <= tolerance.v
-            && diff.a <= tolerance.a
+        if  (self.h - other.h).abs() <= tolerance.h {
+            if  (self.s - other.s).abs() <= tolerance.s {
+                if  (self.v - other.v).abs() <= tolerance.v {
+                    if  (self.a - other.a).abs() <= tolerance.a {
+                        return true;
+                    }
+                }
+            }
+        }
+        false
     }
     #[allow(dead_code)]
     pub fn compare_from_rgb(&self, other: &Rgb, tolerance: Hsv) -> bool {
-        let diff = self.diff(&Hsv::from(other));
-        diff.h <= tolerance.h
-            && diff.s <= tolerance.s
-            && diff.v <= tolerance.v
-            && diff.a <= tolerance.a
+        let other = Hsv::from(other);
+        if  (self.h - other.h).abs() <= tolerance.h {
+            if  (self.s - other.s).abs() <= tolerance.s {
+                if  (self.v - other.v).abs() <= tolerance.v {
+                    if  (self.a - other.a).abs() <= tolerance.a {
+                        return true;
+                    }
+                }
+            }
+        }
+        false
     }
     #[allow(dead_code)]
     pub fn compare_to_rgb(&self, other: &Rgb, tolerance: Rgb) -> bool {
